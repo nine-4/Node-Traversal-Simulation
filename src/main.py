@@ -14,7 +14,7 @@ graph = {
     'K': ['U'],
     'L': ['U'],
     'M': ['S'],
-    'N': ['S'],
+    'N': ['J1','S'],
     'O': ['E', 'S'],
     'P': ['S'],
     'Q': ['S'],
@@ -37,6 +37,7 @@ def dfs(graph, start, goal, closed_nodes):
         if node in closed_nodes:
             continue
 
+        print(f"Evaluating: {node}")
         if node not in visited:
             visited.append(node)
 
