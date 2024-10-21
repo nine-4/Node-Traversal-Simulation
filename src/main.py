@@ -14,7 +14,7 @@ graph = {
     'K': ['U'],
     'L': ['U'],
     'M': ['S'],
-    'N': ['S'],
+    'N': ['J1', 'S'],
     'O': ['E', 'S'],
     'P': ['S'],
     'Q': ['S'],
@@ -57,14 +57,14 @@ def calculate_heuristics(goal):
 
     # Breadth-First Search (BFS) to calculate path costs to the goal
     def bfs_heuristics(goal):
-        visited = set()
+        visited = []
         queue = [(goal, 0)]  # Format: (node, cumulative cost to goal)
 
         while queue:
             current_node, cumulative_cost = queue.pop(0)
 
             if current_node not in visited:
-                visited.add(current_node)
+                visited.append(current_node)
                 # Update heuristic value with a value slightly less than the real cost to goal
                 heuristic_values[current_node] = max(0, cumulative_cost - 0.5)  # Ensures positive heuristic values
 
