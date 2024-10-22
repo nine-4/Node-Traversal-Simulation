@@ -38,9 +38,9 @@ def dfs(graph, start, goal, closed_nodes):
         if node in closed_nodes:
             continue
 
-        print(f"Evaluating: {node}")
         if node not in visited:
             visited.append(node)
+            print(f"Evaluating: {node}")
 
             if node == goal:
                 return path
@@ -63,9 +63,9 @@ def bfs(graph, start, goal, closed_nodes):
         if node in closed_nodes:
             continue
 
-        print(f"Evaluating: {node}")
         if node not in visited:
             visited.append(node)
+            print(f"Evaluating: {node}")
 
             if node == goal:
                 return path
