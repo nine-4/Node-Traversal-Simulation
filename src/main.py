@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Initialize the structure of the graph with their connecting nodes and their costs here
 graph = {
     'A': {'B': 1, 'T': 5},
@@ -23,35 +22,7 @@ graph = {
     'S': {'M': 11, 'N': 9, 'O': 4, 'P': 2, 'Q': 3, 'R': 5, 'T': 7},
     'T': {'A': 5, 'S': 7},
     'U': {'D': 12, 'E': 11, 'F': 10, 'G': 8, 'H': 9, 'I': 7, 'J1': 5, 'J2': 4, 'K': 3, 'L': 6}
-=======
-import time
-# Initialize the structure of the graph with their connecting nodes here
-graph = {
-    'A': ['B', 'T'],
-    'B': ['A', 'C'],
-    'C': ['B', 'D'],
-    'D': ['C', 'U', 'E', 'F', 'H'],
-    'E': ['O', 'U'],
-    'F': ['U'],
-    'G': ['U'],
-    'H': ['U'],
-    'I': ['U'],
-    'J1': ['U', 'N'],
-    'J2': ['U'],
-    'K': ['U'],
-    'L': ['U'],
-    'M': ['S'],
-    'N': ['J1','S'],
-    'O': ['E', 'S'],
-    'P': ['S'],
-    'Q': ['S'],
-    'R': ['S'],
-    'S': ['M', 'N', 'O', 'P', 'Q', 'R', 'T'],
-    'T': ['A', 'S', 'R', 'Q'],
-    'U': ['D', 'E', 'F', 'G', 'H', 'I', 'J1', 'J2', 'K', 'L']
->>>>>>> Algorithm-Choices
 }
-
 
 # Helper function to estimate heuristic values less than actual path costs
 def calculate_heuristics(goal):
@@ -134,11 +105,10 @@ def DFS(graph, start, goal, closed_nodes):
             for neighbor in sorted(graph[node], reverse=True):
                 if neighbor not in visited:
                     stack.append((neighbor, path + [neighbor]))
+
     # No path found
     return None
 
-<<<<<<< HEAD
-=======
 def BFS(graph, start, goal, closed_nodes):
     queue = [(start, [start])]  # Format = (current node, path to current node)
     visited = []  # To keep track of the already visited nodes
@@ -161,13 +131,12 @@ def BFS(graph, start, goal, closed_nodes):
             for neighbor in sorted(graph[node]):
                 if neighbor not in visited:
                     queue.append((neighbor, path + [neighbor]))
-                    time.sleep(0.01)
-            
+
     # No path found
     return None
 
 # Function to find a path based on selected algorithm
-def find_path(algo, graph, start, goal, closed_nodes):
+def find_path(algo, graph, start, goal, heuristics, closed_nodes):
     if algo == 1:
         print("Depth First Search (DFS)")
         return DFS(graph, start, goal, closed_nodes)
@@ -175,40 +144,29 @@ def find_path(algo, graph, start, goal, closed_nodes):
         print("Breadth First Search (BFS)")
         return BFS(graph, start, goal, closed_nodes)
     elif algo == 3:
-        print("Greedy Best First Search (GBFS) - Not implemented yet")
+        print("Greedy Best First Search (GBFS)")
         return GBFS(graph, start, goal, heuristics, closed_nodes)
     else:
         print("Invalid algorithm selection")
         return None
 
->>>>>>> Algorithm-Choices
 def main():
-    # ********************************************--USER INPUTS--**********************************************#
+    #********************************************--USER INPUTS--**********************************************#
     start = input("Enter the starting node: ").upper()
     goal = input("Enter the goal node: ").upper()
     closed_nodes = input("Enter closed nodes (comma separated, or leave blank if none): ").upper().split(',')
-<<<<<<< HEAD
-    # ********************************************************************************************************#
-=======
+    #********************************************************************************************************#
+
     algo = int(input("Choose Algorithm: \n1 Depth First Search (DFS) \n2 Breadth First Search (BFS) \n3 Greedy Best First Search (GBFS)\n"))
     #********************************************************************************************************#
->>>>>>> Algorithm-Choices
 
     closed_nodes = [node.strip() for node in closed_nodes if node.strip() != '']
     print(f"Closed Nodes: {closed_nodes}")
 
-<<<<<<< HEAD
     # Calculate dynamic heuristic values based on the goal
     heuristics = calculate_heuristics(goal)
 
-    # Simulate traversal using Greedy Best-First Search
-    path = GBFS(graph, start, goal, heuristics, closed_nodes)
-=======
-    # Simulate traversal
-    # path = dfs(graph, start, goal, closed_nodes)
-
-    path = find_path(algo, graph, start, goal, closed_nodes)
->>>>>>> Algorithm-Choices
+    path = find_path(algo, graph, start, goal, heuristics, closed_nodes)
 
     if path:
         print(f"Path from {start} to {goal}: {' -> '.join(path)}")
