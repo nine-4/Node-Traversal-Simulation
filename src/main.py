@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Initialize the structure of the graph with their connecting nodes and their costs here
 graph = {
     'A': {'B': 1, 'T': 5},
@@ -22,7 +23,33 @@ graph = {
     'S': {'M': 11, 'N': 9, 'O': 4, 'P': 2, 'Q': 3, 'R': 5, 'T': 7},
     'T': {'A': 5, 'S': 7},
     'U': {'D': 12, 'E': 11, 'F': 10, 'G': 8, 'H': 9, 'I': 7, 'J1': 5, 'J2': 4, 'K': 3, 'L': 6}
+=======
 import time
+# Initialize the structure of the graph with their connecting nodes here
+graph = {
+    'A': ['B', 'T'],
+    'B': ['A', 'C'],
+    'C': ['B', 'D'],
+    'D': ['C', 'U', 'E', 'F', 'H'],
+    'E': ['O', 'U'],
+    'F': ['U'],
+    'G': ['U'],
+    'H': ['U'],
+    'I': ['U'],
+    'J1': ['U', 'N'],
+    'J2': ['U'],
+    'K': ['U'],
+    'L': ['U'],
+    'M': ['S'],
+    'N': ['J1','S'],
+    'O': ['E', 'S'],
+    'P': ['S'],
+    'Q': ['S'],
+    'R': ['S'],
+    'S': ['M', 'N', 'O', 'P', 'Q', 'R', 'T'],
+    'T': ['A', 'S', 'R', 'Q'],
+    'U': ['D', 'E', 'F', 'G', 'H', 'I', 'J1', 'J2', 'K', 'L']
+>>>>>>> Algorithm-Choices
 }
 
 
@@ -176,7 +203,9 @@ def main():
 
     # Simulate traversal using Greedy Best-First Search
     path = GBFS(graph, start, goal, heuristics, closed_nodes)
+=======
     # Simulate traversal
+    # path = dfs(graph, start, goal, closed_nodes)
 
     path = find_path(algo, graph, start, goal, closed_nodes)
 >>>>>>> Algorithm-Choices
