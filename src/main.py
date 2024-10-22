@@ -1,4 +1,5 @@
 # Initialize the structure of the graph with their connecting nodes here
+import heapq
 graphwcost = {
     'A': {'B': 1, 'T': 5},
     'B': {'A': 1, 'C': 2},
@@ -25,30 +26,29 @@ graphwcost = {
 }
 
 
-def dfs(graphwcost, start, goal, closed_nodes):
+def ucs(graphwcost, start, goal, closed_nodes):
+    queue = [(0, start, [start])]  # Format = (Total cost, current node, path to current node)
+    visited = set() 
 
-    stack = [(start, [start])]  # Format = (current node, path to current node)
-    visited = []  # To keep track of the already visited nodes
+    while queue:
+        cost, node, path = heapq.heappop(queue) # gets the node with the lowest cost
 
-    while stack:
-        (node, path) = stack.pop()
-
-        # Do not evaluate closed nodes (if there is any)
         if node in closed_nodes:
             continue
 
-        print(f"Evaluating: {node}")
+        print(f"Evaluating: {node} with total cost: {cost}")
+
         if node not in visited:
-            visited.append(node)
+            visited.add(node)
 
             if node == goal:
                 return path
 
-            # Sort neighbors alphabetically and add unvisited neighbors to the stack
-            for neighbor in sorted(graphwcost[node], reverse=True):
+            # Explore neighbors
+            for neighbor, edge_cost in graphwcost[node].items():
                 if neighbor not in visited:
-                    stack.append((neighbor, path + [neighbor]))
-    # No path found
+                    heapq.heappush(queue, (cost + edge_cost, neighbor, path + [neighbor]))
+
     return None
 
 
@@ -63,7 +63,7 @@ def main():
     print(f"Closed Nodes: {closed_nodes}")
 
     # Simulate traversal
-    path = dfs(graphwcost, start, goal, closed_nodes)
+    path = ucs(graphwcost, start, goal, closed_nodes)
 
     if path:
         print(f"Path from {start} to {goal}: {' -> '.join(path)}")
