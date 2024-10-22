@@ -1,31 +1,5 @@
-# Initialize the structure of the graph with their connecting nodes here
+# Initialize the structure of the graph with their connecting nodes and their costs here
 graph = {
-    'A': ['B', 'T'],
-    'B': ['A', 'C'],
-    'C': ['B', 'D'],
-    'D': ['C', 'U'],
-    'E': ['O', 'U'],
-    'F': ['U'],
-    'G': ['U'],
-    'H': ['U'],
-    'I': ['U'],
-    'J1': ['U', 'N'],
-    'J2': ['U'],
-    'K': ['U'],
-    'L': ['U'],
-    'M': ['S'],
-    'N': ['J1', 'S'],
-    'O': ['E', 'S'],
-    'P': ['S'],
-    'Q': ['S'],
-    'R': ['S'],
-    'S': ['M', 'N', 'O', 'P', 'Q', 'R', 'T'],
-    'T': ['A', 'S'],
-    'U': ['D', 'E', 'F', 'G', 'H', 'I', 'J1', 'J2', 'K', 'L']
-}
-
-# Path costs between connected nodes
-path_costs = {
     'A': {'B': 1, 'T': 5},
     'B': {'A': 1, 'C': 2},
     'C': {'B': 2, 'D': 7},
@@ -72,7 +46,7 @@ def calculate_heuristics(goal):
                 for neighbor in graph[current_node]:
                     if neighbor not in visited:
                         # Get the cost of moving from the neighbor to the current node
-                        cost_to_goal = path_costs[neighbor].get(current_node, float('inf'))
+                        cost_to_goal = graph[neighbor].get(current_node, float('inf'))
                         queue.append((neighbor, cumulative_cost + cost_to_goal))
 
     bfs_heuristics(goal)
