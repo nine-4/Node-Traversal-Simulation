@@ -1,3 +1,5 @@
+import heapq
+
 # Initialize the structure of the graph with their connecting nodes and their costs here
 graph = {
     'A': {'B': 1, 'T': 5},
@@ -49,7 +51,6 @@ def calculate_heuristics(goal):
                         queue.append((neighbor, cumulative_cost + cost_to_goal))
 
     bfs_heuristics(goal)
-    print(f"HEURISTIC VALUES: {heuristic_values}")
     return heuristic_values
 
 
@@ -69,7 +70,7 @@ def GBFS(graph, start, goal, heuristics, closed_nodes):
 
         if node not in visited:
             visited.append(node)
-            print(f"Evaluating node {node}: {heuristic_value}")
+            print(f"Evaluating node {node} with heuristic value: {heuristic_value}")
 
             if node == goal:
                 return path
@@ -135,16 +136,46 @@ def BFS(graph, start, goal, closed_nodes):
     # No path found
     return None
 
+def UCS(graph, start, goal, closed_nodes):
+    queue = [(0, start, [start])]  # Format = (Total cost, current node, path to current node)
+    visited = set()
+
+    while queue:
+        cost, node, path = heapq.heappop(queue) # gets the node with the lowest cost
+
+        if node in closed_nodes:
+            continue
+
+        if node not in visited:
+            visited.add(node)
+            print(f"Evaluating: {node} with total cost: {cost}")
+
+            if node == goal:
+                return path
+
+            # Explore neighbors
+            for neighbor, edge_cost in graph[node].items():
+                if neighbor not in visited:
+                    heapq.heappush(queue, (cost + edge_cost, neighbor, path + [neighbor]))
+
+    return None
+
 # Function to find a path based on selected algorithm
-def find_path(algo, graph, start, goal, heuristics, closed_nodes):
+def find_path(algo, graph, start, goal, closed_nodes):
     if algo == 1:
-        print("Depth First Search (DFS)")
+        print("\nDepth First Search (DFS)")
         return DFS(graph, start, goal, closed_nodes)
     elif algo == 2:
-        print("Breadth First Search (BFS)")
+        print("\nBreadth First Search (BFS)")
         return BFS(graph, start, goal, closed_nodes)
     elif algo == 3:
-        print("Greedy Best First Search (GBFS)")
+        print("\nUniform Cost Search (UCS)")
+        return UCS(graph, start, goal, closed_nodes)
+    elif algo == 4:
+        print("\nGreedy Best First Search (GBFS)")
+        # Calculate dynamic heuristic values based on the goal
+        heuristics = calculate_heuristics(goal)
+        print(f"Heuristic Values: {heuristics}")
         return GBFS(graph, start, goal, heuristics, closed_nodes)
     else:
         print("Invalid algorithm selection")
@@ -155,18 +186,14 @@ def main():
     start = input("Enter the starting node: ").upper()
     goal = input("Enter the goal node: ").upper()
     closed_nodes = input("Enter closed nodes (comma separated, or leave blank if none): ").upper().split(',')
-    #********************************************************************************************************#
 
-    algo = int(input("Choose Algorithm: \n1 Depth First Search (DFS) \n2 Breadth First Search (BFS) \n3 Greedy Best First Search (GBFS)\n"))
-    #********************************************************************************************************#
+    algo = int(input("\nChoose an Algorithm (enter number): \n1 Depth First Search (DFS) \n2 Breadth First Search (BFS) \n3 Uniform Cost Search (UCS)\n4 Greedy Best First Search (GBFS)\n"))
+    #*********************************************************************************************************#
 
     closed_nodes = [node.strip() for node in closed_nodes if node.strip() != '']
     print(f"Closed Nodes: {closed_nodes}")
 
-    # Calculate dynamic heuristic values based on the goal
-    heuristics = calculate_heuristics(goal)
-
-    path = find_path(algo, graph, start, goal, heuristics, closed_nodes)
+    path = find_path(algo, graph, start, goal, closed_nodes)
 
     if path:
         print(f"Path from {start} to {goal}: {' -> '.join(path)}")
